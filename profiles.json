@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Lucas",
+    "age": 28,
+    "job": "Chef 👨‍🍳",
+    "distance": "2 km away",
+    "bio": "Will cook for you. Will also eat your leftovers. Non-negotiable.",
+    "flirt": "ask me what's in the secret sauce 🍝",
+    "photo": "lucas.jpg",
+    "forcedMatch": true
+  },
+  {
+    "name": "Antoine",
+    "age": 31,
+    "job": "Architect 🏛️",
+    "distance": "5 km away",
+    "bio": "I design things. Including my own excuses for being late.",
+    "flirt": "ask me why buildings are taller than they are wide",
+    "photo": "antoine.jpg",
+    "forcedMatch": false
+  },
+  {
+    "name": "Max",
+    "age": 26,
+    "job": "Vet 🐾",
+    "distance": "1 km away",
+    "bio": "If your dog likes me, it's meant to be. Science.",
+    "flirt": "tell me your pet's full name and backstory",
+    "photo": "max.jpg",
+    "forcedMatch": true
+  },
+  {
+    "name": "Romain",
+    "age": 33,
+    "job": "DJ 🎧",
+    "distance": "3 km away",
+    "bio": "I once made a room full of strangers cry with a transition. Not sorry.",
+    "flirt": "request a song I've definitely never played",
+    "photo": "romain.jpg",
+    "forcedMatch": false
+  },
+  {
+    "name": "Tom",
+    "age": 29,
+    "job": "Firefighter 🚒",
+    "distance": "7 km away",
+    "bio": "Literally saves lives for a living. Emotionally? Still figuring it out.",
+    "flirt": "pretend you need rescuing (from boredom)",
+    "photo": "tom.jpg",
+    "forcedMatch": false
+  },
+  {
+    "name": "Julien",
+    "age": 27,
+    "job": "Photographer 📸",
+    "distance": "4 km away",
+    "bio": "I see the world in golden hour lighting. And in RAW format.",
+    "flirt": "let me take a candid of you doing literally nothing",
+    "photo": "julien.jpg",
+    "forcedMatch": true
+  }
+]
