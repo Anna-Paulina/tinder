@@ -1,0 +1,63 @@
+# 💍 One Last Swipe — Setup Guide
+
+## File structure
+
+```
+your-folder/
+├── index.html        ← the app
+├── profiles.json     ← your profiles (edit this!)
+├── lucas.jpg         ← photos (filenames must match "photo" in JSON)
+├── antoine.jpg
+└── ...
+```
+
+---
+
+## Editing profiles.json
+
+Each profile is an object with these fields:
+
+| Field | Description | Example |
+|---|---|---|
+| `name` | First name | `"Lucas"` |
+| `age` | Age shown on card | `28` |
+| `job` | Job title (emoji welcome) | `"Chef 👨‍🍳"` |
+| `distance` | Fake distance shown | `"2 km away"` |
+| `bio` | Short tagline | `"Will cook for you."` |
+| `flirt` | Completes "To flirt with me, you should:" | `"ask me about the sauce"` |
+| `photo` | Exact filename of the photo | `"lucas.jpg"` |
+| `forcedMatch` | `true` = always a match on right-swipe. `false` = ~35% random chance | `true` or `false` |
+
+> 💡 **Match strategy**: set `forcedMatch: true` for the ones you want to guarantee fire up the confetti, and `false` for random ones that keep everyone on their toes.
+
+---
+
+## How to use it
+
+### Option A — Drag & drop (easiest)
+1. Open `index.html` in a browser
+2. Select **all files** (index.html, profiles.json, photos) and drag them onto the drop zone
+3. Done — start swiping!
+
+### Option B — GitHub Pages
+1. Push the whole folder to a GitHub repo
+2. Go to **Settings → Pages → Deploy from branch** → select `main` / `root`
+3. Share the URL with the group
+
+### Option C — Local server (for developers)
+```bash
+npx serve .
+# or
+python -m http.server 8080
+```
+
+---
+
+## Tips
+
+- Photos can be JPG, PNG, WebP — whatever you have
+- Filename matching is **case-sensitive** on some systems (`Lucas.jpg` ≠ `lucas.jpg`)
+- Shuffle happens automatically on load so order in the JSON doesn't matter
+- The ❤️ counter in the top right tracks matches in real time
+
+Have an amazing bachelorette party! 🥂
