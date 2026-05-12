@@ -4,29 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>One Last Swipe 💍</title>
-<link href="https://fonts.googleapis.com/css2?family=Circular+Std:wght@400;500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --tinder-pink: #fe3c72;
-    --tinder-orange: #ff6034;
-    --tinder-gold: #ffd700;
-    --tinder-blue: #2196f3;
-    --bg: #f5f5f5;
-    --card-radius: 16px;
-    --shadow: 0 10px 40px rgba(0,0,0,0.15);
+    --pink: #fe3c72;
+    --orange: #ff6034;
+    --gold: #ffd700;
+    --green: #4caf50;
+    --radius: 16px;
+    --shadow: 0 10px 40px rgba(0,0,0,0.18);
   }
 
   body {
     font-family: 'Nunito', sans-serif;
-    background: var(--bg);
+    background: #f0f0f0;
     height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
     user-select: none;
+    -webkit-user-select: none;
   }
 
   /* ── Header ── */
@@ -36,441 +36,271 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 20px 8px;
+    padding: 14px 20px 6px;
     flex-shrink: 0;
   }
   .logo {
-    font-size: 22px;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--tinder-pink), var(--tinder-orange));
+    font-size: 20px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--pink), var(--orange));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    letter-spacing: -0.5px;
   }
-  .header-icon {
-    font-size: 22px;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: opacity 0.2s;
+  .header-badge {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--pink);
+    background: #fff;
+    border-radius: 100px;
+    padding: 4px 12px;
+    box-shadow: 0 2px 8px rgba(254,60,114,0.2);
   }
-  .header-icon:hover { opacity: 1; }
 
-  /* ── Card stack area ── */
+  /* ── Card area ── */
   #card-area {
     flex: 1;
     width: 100%;
     max-width: 430px;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 16px 0;
+    padding: 6px 16px 0;
   }
 
   .card {
     position: absolute;
-    width: calc(100% - 32px);
-    height: 100%;
-    border-radius: var(--card-radius);
+    left: 16px; right: 16px; top: 6px; bottom: 0;
+    border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow);
-    cursor: grab;
-    background: #fff;
-    transition: transform 0.05s;
+    background: #222;
     touch-action: none;
   }
-  .card:active { cursor: grabbing; }
-
-  .card-photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  .card-front { z-index: 2; cursor: grab; }
+  .card-front:active { cursor: grabbing; }
+  .card-behind {
+    z-index: 1;
     pointer-events: none;
-  }
-  .card-photo-placeholder {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #f8b4c8, #ffd6e0);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 80px;
-    color: rgba(255,255,255,0.7);
+    transform: scale(0.95) translateY(14px);
   }
 
-  /* Gradient overlay at bottom */
+  /* ── Photos ── */
+  .photo-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.22s;
+  }
+  .photo-slide.active { opacity: 1; }
+  .photo-slide img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+  .photo-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #f8b4c8, #ffd6e0);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 80px;
+  }
+
+  /* Tap zones — upper portion of card only */
+  .tap-prev, .tap-next {
+    position: absolute;
+    top: 0; height: 58%;
+    width: 38%;
+    z-index: 5;
+    cursor: pointer;
+  }
+  .tap-prev { left: 0; }
+  .tap-next { right: 0; }
+
+  /* Progress dots */
+  .photo-dots {
+    position: absolute;
+    top: 10px; left: 10px; right: 10px;
+    display: flex; gap: 4px;
+    z-index: 6; pointer-events: none;
+  }
+  .photo-dot {
+    flex: 1; height: 3px; border-radius: 2px;
+    background: rgba(255,255,255,0.35);
+    transition: background 0.2s;
+  }
+  .photo-dot.active { background: rgba(255,255,255,0.95); }
+
+  /* ── Info overlay ── */
   .card-info {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
-    padding: 80px 20px 24px;
+    background: linear-gradient(to top,
+      rgba(0,0,0,0.88) 0%,
+      rgba(0,0,0,0.5) 55%,
+      transparent 100%);
+    padding: 70px 18px 20px;
     color: #fff;
-  }
-
-  .card-name-line {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin-bottom: 4px;
-  }
-  .card-name {
-    font-size: 28px;
-    font-weight: 800;
-    line-height: 1;
-  }
-  .card-age {
-    font-size: 26px;
-    font-weight: 400;
-  }
-  .card-job {
-    font-size: 14px;
-    font-weight: 600;
-    opacity: 0.85;
-    margin-bottom: 4px;
-  }
-  .card-distance {
-    font-size: 13px;
-    opacity: 0.7;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 8px;
-  }
-  .card-bio {
-    font-size: 14px;
-    line-height: 1.5;
-    opacity: 0.9;
-    margin-bottom: 10px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .card-flirt {
-    font-size: 13px;
-    opacity: 0.75;
-    font-style: italic;
-  }
-  .card-flirt strong { opacity: 1; font-style: normal; font-weight: 700; }
-
-  /* Swipe stamps */
-  .stamp {
-    position: absolute;
-    top: 40px;
-    font-size: 40px;
-    font-weight: 900;
-    border: 5px solid;
-    border-radius: 8px;
-    padding: 6px 18px;
-    letter-spacing: 3px;
-    opacity: 0;
-    transition: opacity 0.05s;
-    transform: rotate(-20deg);
-    text-transform: uppercase;
-  }
-  .stamp-like {
-    left: 24px;
-    color: #4caf50;
-    border-color: #4caf50;
-    transform: rotate(-20deg);
-  }
-  .stamp-nope {
-    right: 24px;
-    color: var(--tinder-pink);
-    border-color: var(--tinder-pink);
-    transform: rotate(20deg);
-  }
-
-  /* Behind cards */
-  .card-behind {
-    transform: scale(0.95) translateY(12px);
-    z-index: 0;
+    z-index: 4;
     pointer-events: none;
   }
-  .card-front { z-index: 1; }
+  .card-name-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 3px; }
+  .card-name { font-size: 28px; font-weight: 900; line-height: 1; }
+  .card-age  { font-size: 25px; font-weight: 400; }
+  .card-job  { font-size: 13px; font-weight: 700; opacity: 0.88; margin-bottom: 3px; }
+  .card-dist { font-size: 12px; opacity: 0.65; margin-bottom: 8px; }
+  .card-bio  {
+    font-size: 13px; line-height: 1.5; opacity: 0.9; margin-bottom: 8px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .card-flirt { font-size: 12px; opacity: 0.72; font-style: italic; }
+  .card-flirt strong { font-style: normal; font-weight: 800; }
+
+  /* ── Swipe stamps ── */
+  .stamp {
+    position: absolute; top: 52px;
+    font-size: 36px; font-weight: 900;
+    border: 5px solid; border-radius: 8px;
+    padding: 5px 14px; letter-spacing: 3px;
+    opacity: 0; pointer-events: none; z-index: 7;
+    text-transform: uppercase;
+  }
+  .stamp-like { left: 20px;  color: var(--green); border-color: var(--green); transform: rotate(-22deg); }
+  .stamp-nope { right: 20px; color: var(--pink);  border-color: var(--pink);  transform: rotate(22deg); }
 
   /* ── Action buttons ── */
   #actions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    padding: 18px 0 24px;
-    flex-shrink: 0;
-    width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    gap: 20px; padding: 14px 0 20px; flex-shrink: 0;
   }
-
   .btn-action {
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border: none; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.14);
     transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    flex-shrink: 0;
+    background: #fff; flex-shrink: 0;
   }
-  .btn-action:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(0,0,0,0.22); }
-  .btn-action:active { transform: scale(0.95); }
-
-  .btn-nope  { width: 60px; height: 60px; background: #fff; font-size: 28px; }
-  .btn-super { width: 50px; height: 50px; background: #fff; font-size: 22px; }
-  .btn-like  { width: 60px; height: 60px; background: #fff; font-size: 28px; }
+  .btn-action:hover  { transform: scale(1.1);  box-shadow: 0 6px 24px rgba(0,0,0,0.2); }
+  .btn-action:active { transform: scale(0.93); }
+  .btn-nope  { width: 62px; height: 62px; font-size: 28px; }
+  .btn-super { width: 50px; height: 50px; font-size: 22px; }
+  .btn-like  { width: 62px; height: 62px; font-size: 28px; }
 
   /* ── Match overlay ── */
   #match-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.88);
     z-index: 100;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s;
   }
-  #match-overlay.visible {
-    opacity: 1;
-    pointer-events: all;
-  }
+  #match-overlay.visible { opacity: 1; pointer-events: all; }
 
   .match-title {
-    font-size: 48px;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--tinder-pink), var(--tinder-gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-align: center;
-    margin-bottom: 6px;
-    animation: matchPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    font-size: 46px; font-weight: 900; text-align: center; margin-bottom: 6px;
+    background: linear-gradient(135deg, var(--pink), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
   }
-  .match-subtitle {
-    color: rgba(255,255,255,0.85);
-    font-size: 16px;
-    margin-bottom: 36px;
-    text-align: center;
-    animation: matchPop 0.5s 0.1s cubic-bezier(0.34,1.56,0.64,1) both;
+  .match-sub {
+    color: rgba(255,255,255,0.8); font-size: 16px; text-align: center; margin-bottom: 32px;
+    animation: pop 0.5s 0.08s cubic-bezier(0.34,1.56,0.64,1) both;
   }
   .match-photos {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 36px;
-    animation: matchPop 0.5s 0.2s cubic-bezier(0.34,1.56,0.64,1) both;
+    display: flex; gap: 16px; margin-bottom: 20px;
+    animation: pop 0.5s 0.16s cubic-bezier(0.34,1.56,0.64,1) both;
   }
-  .match-photo {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--tinder-pink);
-    box-shadow: 0 0 0 4px rgba(254,60,114,0.3);
+  .match-avatar {
+    width: 128px; height: 128px; border-radius: 50%;
+    object-fit: cover; border: 4px solid var(--pink);
+    box-shadow: 0 0 0 4px rgba(254,60,114,0.25);
   }
-  .match-photo-placeholder {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
+  .match-avatar-emoji {
+    width: 128px; height: 128px; border-radius: 50%;
     background: linear-gradient(135deg, #f8b4c8, #ffd6e0);
-    border: 4px solid var(--tinder-pink);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 48px;
+    border: 4px solid var(--pink);
+    display: flex; align-items: center; justify-content: center; font-size: 52px;
   }
   .match-name {
-    color: #fff;
-    font-size: 18px;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 28px;
-    animation: matchPop 0.5s 0.25s cubic-bezier(0.34,1.56,0.64,1) both;
+    color: #fff; font-size: 17px; font-weight: 700; text-align: center; margin-bottom: 30px;
+    animation: pop 0.5s 0.22s cubic-bezier(0.34,1.56,0.64,1) both;
   }
-
-  .btn-match-continue {
-    background: linear-gradient(135deg, var(--tinder-pink), var(--tinder-orange));
-    color: #fff;
-    border: none;
-    border-radius: 100px;
-    padding: 16px 48px;
-    font-size: 17px;
-    font-weight: 800;
-    font-family: 'Nunito', sans-serif;
-    cursor: pointer;
-    box-shadow: 0 6px 24px rgba(254,60,114,0.5);
+  .btn-continue {
+    background: linear-gradient(135deg, var(--pink), var(--orange));
+    color: #fff; border: none; border-radius: 100px;
+    padding: 15px 48px; font-size: 16px; font-weight: 800;
+    font-family: 'Nunito', sans-serif; cursor: pointer;
+    box-shadow: 0 6px 24px rgba(254,60,114,0.45);
     transition: transform 0.15s;
-    animation: matchPop 0.5s 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+    animation: pop 0.5s 0.28s cubic-bezier(0.34,1.56,0.64,1) both;
   }
-  .btn-match-continue:hover { transform: scale(1.04); }
-  .btn-match-continue:active { transform: scale(0.97); }
+  .btn-continue:hover  { transform: scale(1.04); }
+  .btn-continue:active { transform: scale(0.97); }
 
-  @keyframes matchPop {
-    from { opacity: 0; transform: scale(0.6); }
+  @keyframes pop {
+    from { opacity: 0; transform: scale(0.55); }
     to   { opacity: 1; transform: scale(1); }
   }
 
-  /* ── Confetti canvas ── */
+  /* ── Confetti ── */
   #confetti-canvas {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 99;
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 99;
   }
 
-  /* ── End screen ── */
-  #end-screen {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px;
-    height: 100%;
-    gap: 16px;
+  /* ── Loading screen ── */
+  #loading-screen {
+    position: fixed; inset: 0; background: #f0f0f0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 16px; z-index: 200; transition: opacity 0.4s;
   }
-  #end-screen .end-emoji { font-size: 72px; }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 4px solid #ffd6e0;
+    border-top-color: var(--pink);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  #loading-screen p { font-size: 16px; font-weight: 700; color: #aaa; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Error / End screens ── */
+  #error-screen, #end-screen {
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 40px; gap: 14px;
+    position: absolute; inset: 0;
+  }
+  .screen-emoji { font-size: 64px; }
+  #error-screen h2, #end-screen h2 { font-size: 24px; font-weight: 900; }
+  #error-screen h2 { color: #333; }
   #end-screen h2 {
-    font-size: 28px;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--tinder-pink), var(--tinder-orange));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    background: linear-gradient(135deg, var(--pink), var(--orange));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
-  #end-screen p {
-    font-size: 16px;
-    color: #666;
-    max-width: 300px;
-    line-height: 1.6;
-  }
-  #end-screen .match-count {
-    font-size: 48px;
-    font-weight: 900;
-    color: var(--tinder-pink);
-  }
-
-  /* ── Upload screen ── */
-  #upload-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 40px;
-    text-align: center;
-    gap: 20px;
-  }
-  #upload-screen h1 { font-size: 28px; font-weight: 800; color: #333; }
-  #upload-screen p { font-size: 15px; color: #888; line-height: 1.6; max-width: 320px; }
-  .drop-zone {
-    width: 100%;
-    max-width: 360px;
-    border: 3px dashed #fed1dc;
-    border-radius: 20px;
-    padding: 40px 20px;
-    background: #fff9fa;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .drop-zone:hover, .drop-zone.dragover {
-    border-color: var(--tinder-pink);
-    background: #fff0f4;
-  }
-  .drop-zone-emoji { font-size: 48px; margin-bottom: 12px; }
-  .drop-zone p { font-size: 14px; color: #aaa; margin-top: 8px; }
-  #file-input { display: none; }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--tinder-pink), var(--tinder-orange));
-    color: #fff;
-    border: none;
-    border-radius: 100px;
-    padding: 14px 40px;
-    font-size: 16px;
-    font-weight: 800;
-    font-family: 'Nunito', sans-serif;
-    cursor: pointer;
-    box-shadow: 0 6px 24px rgba(254,60,114,0.4);
-    transition: transform 0.15s;
-  }
-  .btn-primary:hover { transform: scale(1.04); }
-
-  /* ── No json warning ── */
-  .warning-box {
-    background: #fff8e1;
-    border: 1px solid #ffe082;
-    border-radius: 12px;
-    padding: 12px 16px;
-    font-size: 13px;
-    color: #7a6300;
-    max-width: 360px;
-    line-height: 1.5;
-    text-align: left;
-  }
-  .warning-box code {
-    background: rgba(0,0,0,0.08);
-    padding: 1px 5px;
-    border-radius: 4px;
-    font-family: monospace;
-  }
-
-  /* ── Photo info bar ── */
-  .photo-dots {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    display: flex;
-    gap: 4px;
-    z-index: 2;
-  }
-  .dot {
-    flex: 1;
-    height: 3px;
-    border-radius: 2px;
-    background: rgba(255,255,255,0.5);
-  }
-  .dot.active { background: rgba(255,255,255,0.95); }
+  #error-screen p, #end-screen p { font-size: 14px; color: #888; line-height: 1.6; max-width: 300px; }
+  #error-screen code { background: #eee; border-radius: 5px; padding: 2px 6px; font-family: monospace; }
+  .big-count { font-size: 72px; font-weight: 900; color: var(--pink); line-height: 1; }
 </style>
 </head>
 <body>
 
 <canvas id="confetti-canvas"></canvas>
 
-<!-- Upload screen (shown when no photos loaded) -->
-<div id="upload-screen">
-  <div style="font-size:56px">💍</div>
-  <h1>One Last Swipe</h1>
-  <p>Drop your <code>profiles.json</code> + photos below, or just the photos to use demo profiles.</p>
-
-  <div class="drop-zone" id="drop-zone">
-    <div class="drop-zone-emoji">📂</div>
-    <strong style="font-size:15px;color:#555">Drop files here</strong>
-    <p>photos + profiles.json</p>
-  </div>
-  <input type="file" id="file-input" multiple accept="image/*,.json">
-
-  <button class="btn-primary" onclick="document.getElementById('file-input').click()">
-    Choose Files
-  </button>
-
-  <div class="warning-box">
-    📋 <strong>Tip:</strong> Place <code>profiles.json</code> in the same folder as your photos. See the README for format.
-    <br>Or just drop photos — sample profiles will be used.
-  </div>
+<!-- Loading -->
+<div id="loading-screen">
+  <div style="font-size:52px">💍</div>
+  <div class="spinner"></div>
+  <p>Loading profiles…</p>
 </div>
 
-<!-- Main app (hidden until photos loaded) -->
-<div id="app" style="display:none;flex-direction:column;align-items:center;width:100%;height:100dvh;">
+<!-- App shell -->
+<div id="app" style="display:none;flex-direction:column;align-items:center;width:100%;height:100dvh;position:relative;">
 
   <header>
-    <div class="header-icon">⚡</div>
     <div class="logo">💍 last swipe</div>
-    <div class="header-icon" id="match-counter-icon">❤️ <span id="match-count-header">0</span></div>
+    <div class="header-badge">❤️ <span id="match-count">0</span> matches</div>
   </header>
 
   <div id="card-area"></div>
@@ -481,108 +311,83 @@
     <button class="btn-action btn-like"  onclick="swipe('right')" title="Like">💚</button>
   </div>
 
-  <div id="end-screen">
-    <div class="end-emoji">🥂</div>
-    <h2>You've seen them all!</h2>
-    <p>Final match count:</p>
-    <div class="match-count" id="final-match-count">0</div>
-    <p style="font-size:14px;color:#aaa">Time to celebrate the real one 💍</p>
+  <!-- Error & End live inside app to inherit layout -->
+  <div id="error-screen">
+    <div class="screen-emoji">😬</div>
+    <h2>Couldn't load profiles</h2>
+    <p>Make sure <code>profiles.json</code> is at the root of your repo and photos are in <code>/photos/</code>.<br><br>Check the README for details.</p>
   </div>
+
+  <div id="end-screen">
+    <div class="screen-emoji">🥂</div>
+    <h2>You've seen them all!</h2>
+    <p>Total matches tonight:</p>
+    <div class="big-count" id="final-count">0</div>
+    <p style="color:#bbb;font-size:13px;margin-top:4px">Time to celebrate the real one 💍</p>
+  </div>
+
 </div>
 
 <!-- Match overlay -->
 <div id="match-overlay">
-  <div class="match-title">It's a Match!</div>
-  <div class="match-subtitle">Someone likes you back 💘</div>
+  <div class="match-title">It's a Match! 🎉</div>
+  <div class="match-sub">Someone likes you back 💘</div>
   <div class="match-photos" id="match-photos"></div>
-  <div class="match-name" id="match-profile-name"></div>
-  <button class="btn-match-continue" onclick="closeMatch()">Keep Swiping</button>
+  <div class="match-name"   id="match-name"></div>
+  <button class="btn-continue" onclick="closeMatch()">Keep Swiping</button>
 </div>
 
 <script>
 // ─────────────────────────────────────────
+//  Config — edit if needed
+// ─────────────────────────────────────────
+const PHOTOS_DIR   = 'photos/';       // relative to index.html
+const PROFILES_URL = 'profiles.json'; // relative to index.html
+
+// ─────────────────────────────────────────
 //  State
 // ─────────────────────────────────────────
 let profiles = [];
-let photoURLs = {}; // filename -> objectURL
 let currentIndex = 0;
 let matchCount = 0;
-
-// Drag state
-let startX = 0, startY = 0, currentX = 0;
-let isDragging = false;
+let photoIdx = 0;     // current photo index on the front card
 let activeCard = null;
 
+// Pointer state
+let startX = 0, startY = 0, deltaX = 0, deltaY = 0;
+let isDragging = false, pointerMoved = false;
+
 // ─────────────────────────────────────────
-//  File loading
+//  Boot
 // ─────────────────────────────────────────
-const dropZone = document.getElementById('drop-zone');
-const fileInput = document.getElementById('file-input');
-
-dropZone.addEventListener('click', () => fileInput.click());
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
-fileInput.addEventListener('change', e => handleFiles(e.target.files));
-
-async function handleFiles(files) {
-  const arr = Array.from(files);
-  const jsonFile = arr.find(f => f.name === 'profiles.json');
-  const imageFiles = arr.filter(f => f.type.startsWith('image/'));
-
-  // Load images into objectURLs
-  for (const img of imageFiles) {
-    photoURLs[img.name] = URL.createObjectURL(img);
+window.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const res = await fetch(PROFILES_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    profiles = await res.json();
+    profiles.forEach(p => { p._photos = normalizePhotos(p); });
+    profiles = profiles.sort(() => Math.random() - 0.5);
+    hideLoading();
+    document.getElementById('app').style.display = 'flex';
+    renderCards();
+  } catch (err) {
+    console.error(err);
+    hideLoading();
+    document.getElementById('app').style.display = 'flex';
+    showPanel('error-screen');
+    document.getElementById('card-area').style.display = 'none';
+    document.getElementById('actions').style.display = 'none';
   }
+});
 
-  if (jsonFile) {
-    const text = await jsonFile.text();
-    try {
-      profiles = JSON.parse(text);
-    } catch(e) {
-      alert('Could not parse profiles.json — check the format!');
-      return;
-    }
-  } else if (imageFiles.length > 0) {
-    // Auto-generate demo profiles for each image
-    const demoNames = ['Alex','Jordan','Sam','Taylor','Casey','Morgan','Riley','Jamie','Avery','Quinn'];
-    const demoJobs = ['Chef 👨‍🍳','Pilot ✈️','Vet 🐾','DJ 🎧','Surfer 🏄','Architect 🏛️','Florist 🌸','Baker 🥐'];
-    const demoBios = [
-      'Here for a good time, not a long time 😎',
-      'Professional brunch attender ☕',
-      'Dog person. Cat tolerant.',
-      'My love language is snacks 🍕',
-      'Will cry at your wedding. Guaranteed.',
-      'I can fix that. (I cannot fix that.)',
-    ];
-    const demoFlirts = [
-      'compliment my dog','bring wine','dance badly','quote The Office','pretend we\'ve met before'];
-    profiles = imageFiles.map((f, i) => ({
-      name: demoNames[i % demoNames.length],
-      age: 24 + Math.floor(Math.random() * 12),
-      job: demoJobs[i % demoJobs.length],
-      distance: `${Math.floor(Math.random() * 8) + 1} km away`,
-      bio: demoBios[i % demoBios.length],
-      flirt: demoFlirts[i % demoFlirts.length],
-      photo: f.name,
-      forcedMatch: i % 3 === 0
-    }));
-  } else {
-    alert('Please drop at least some photos!');
-    return;
-  }
-
-  // Shuffle profiles
-  profiles = profiles.sort(() => Math.random() - 0.5);
-
-  startApp();
+function hideLoading() {
+  const l = document.getElementById('loading-screen');
+  l.style.opacity = '0';
+  setTimeout(() => l.style.display = 'none', 400);
 }
 
-function startApp() {
-  document.getElementById('upload-screen').style.display = 'none';
-  const app = document.getElementById('app');
-  app.style.display = 'flex';
-  renderCards();
+function showPanel(id) {
+  document.getElementById(id).style.display = 'flex';
 }
 
 // ─────────────────────────────────────────
@@ -591,214 +396,235 @@ function startApp() {
 function renderCards() {
   const area = document.getElementById('card-area');
   area.innerHTML = '';
+  activeCard = null;
 
   if (currentIndex >= profiles.length) {
-    showEndScreen();
-    return;
+    showEndScreen(); return;
   }
 
-  // Render next card (behind)
+  // Behind card
   if (currentIndex + 1 < profiles.length) {
     const behind = buildCard(profiles[currentIndex + 1], false);
     behind.classList.add('card-behind');
     area.appendChild(behind);
   }
 
-  // Render current card (front)
+  // Front card
+  photoIdx = 0;
   const front = buildCard(profiles[currentIndex], true);
   front.classList.add('card-front');
   area.appendChild(front);
-  bindDrag(front);
   activeCard = front;
+  bindDrag(front);
 }
 
 function buildCard(profile, isFront) {
+  const photos = profile._photos;
   const card = document.createElement('div');
   card.className = 'card';
 
-  // Photo
-  const photoURL = photoURLs[profile.photo];
-  if (photoURL) {
-    const img = document.createElement('img');
-    img.className = 'card-photo';
-    img.src = photoURL;
-    img.alt = profile.name;
-    card.appendChild(img);
-  } else {
-    const placeholder = document.createElement('div');
-    placeholder.className = 'card-photo-placeholder';
-    placeholder.innerHTML = '🤷';
-    card.appendChild(placeholder);
+  // Photo slides
+  photos.forEach((src, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'photo-slide' + (i === 0 ? ' active' : '');
+    if (src) {
+      const img = document.createElement('img');
+      img.src = PHOTOS_DIR + src;
+      img.alt = profile.name;
+      img.draggable = false;
+      slide.appendChild(img);
+    } else {
+      const ph = document.createElement('div');
+      ph.className = 'photo-placeholder';
+      ph.textContent = '🤷';
+      slide.appendChild(ph);
+    }
+    card.appendChild(slide);
+  });
+
+  // Dot bar
+  const dotsBar = document.createElement('div');
+  dotsBar.className = 'photo-dots';
+  photos.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'photo-dot' + (i === 0 ? ' active' : '');
+    dotsBar.appendChild(d);
+  });
+  card.appendChild(dotsBar);
+
+  // Tap zones (bound only on front card via bindDrag)
+  if (isFront) {
+    const prev = document.createElement('div');
+    prev.className = 'tap-prev';
+    card.appendChild(prev);
+    const next = document.createElement('div');
+    next.className = 'tap-next';
+    card.appendChild(next);
   }
 
-  // Dots bar
-  const dots = document.createElement('div');
-  dots.className = 'photo-dots';
-  const dot = document.createElement('div');
-  dot.className = 'dot active';
-  dots.appendChild(dot);
-  card.appendChild(dots);
+  // Stamps
+  ['like','nope'].forEach(t => {
+    const s = document.createElement('div');
+    s.className = `stamp stamp-${t}`;
+    s.textContent = t === 'like' ? 'LIKE' : 'NOPE';
+    card.appendChild(s);
+  });
 
   // Info overlay
   const info = document.createElement('div');
   info.className = 'card-info';
   info.innerHTML = `
-    <div class="card-name-line">
-      <span class="card-name">${profile.name}</span>
-      <span class="card-age">${profile.age}</span>
+    <div class="card-name-row">
+      <span class="card-name">${esc(profile.name)}</span>
+      <span class="card-age">${esc(profile.age ?? '')}</span>
     </div>
-    ${profile.job ? `<div class="card-job">${profile.job}</div>` : ''}
-    ${profile.distance ? `<div class="card-distance">📍 ${profile.distance}</div>` : ''}
-    ${profile.bio ? `<div class="card-bio">${profile.bio}</div>` : ''}
-    ${profile.flirt ? `<div class="card-flirt"><strong>To flirt with me, you should:</strong> ${profile.flirt}</div>` : ''}
+    ${ profile.job      ? `<div class="card-job">${esc(profile.job)}</div>`  : '' }
+    ${ profile.distance ? `<div class="card-dist">📍 ${esc(profile.distance)}</div>` : '' }
+    ${ profile.bio      ? `<div class="card-bio">${esc(profile.bio)}</div>`  : '' }
+    ${ profile.flirt    ? `<div class="card-flirt"><strong>To flirt with me, you should:</strong> ${esc(profile.flirt)}</div>` : '' }
   `;
   card.appendChild(info);
-
-  // Stamps
-  const like = document.createElement('div');
-  like.className = 'stamp stamp-like';
-  like.textContent = 'LIKE';
-  card.appendChild(like);
-
-  const nope = document.createElement('div');
-  nope.className = 'stamp stamp-nope';
-  nope.textContent = 'NOPE';
-  card.appendChild(nope);
 
   return card;
 }
 
-// ─────────────────────────────────────────
-//  Drag / swipe
-// ─────────────────────────────────────────
-function bindDrag(card) {
-  card.addEventListener('mousedown',  onStart);
-  card.addEventListener('touchstart', onStart, { passive: true });
+function normalizePhotos(p) {
+  if (Array.isArray(p.photos)) return p.photos.slice(0, 6);
+  if (p.photo) return [p.photo];
+  return [null];
 }
 
-function onStart(e) {
+function setPhotoIdx(card, idx, total) {
+  card.querySelectorAll('.photo-slide').forEach((s, i) => s.classList.toggle('active', i === idx));
+  card.querySelectorAll('.photo-dot').forEach((d, i)   => d.classList.toggle('active', i === idx));
+}
+
+// ─────────────────────────────────────────
+//  Drag & tap handling
+// ─────────────────────────────────────────
+function bindDrag(card) {
+  card.addEventListener('pointerdown', onDown);
+}
+
+function onDown(e) {
+  if (e.button !== undefined && e.button !== 0) return;
   isDragging = true;
-  const pt = e.touches ? e.touches[0] : e;
-  startX = pt.clientX;
-  startY = pt.clientY;
-  currentX = 0;
-  document.addEventListener('mousemove', onMove);
-  document.addEventListener('touchmove', onMove, { passive: true });
-  document.addEventListener('mouseup',  onEnd);
-  document.addEventListener('touchend', onEnd);
+  pointerMoved = false;
+  startX = e.clientX; startY = e.clientY;
+  deltaX = 0; deltaY = 0;
+  window.addEventListener('pointermove', onMove);
+  window.addEventListener('pointerup',   onUp);
+  window.addEventListener('pointercancel', onUp);
 }
 
 function onMove(e) {
   if (!isDragging || !activeCard) return;
-  const pt = e.touches ? e.touches[0] : e;
-  currentX = pt.clientX - startX;
-  const currentY = pt.clientY - startY;
-  const rotate = currentX * 0.08;
-  activeCard.style.transform = `translate(${currentX}px, ${currentY * 0.3}px) rotate(${rotate}deg)`;
+  deltaX = e.clientX - startX;
+  deltaY = e.clientY - startY;
+  if (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4) pointerMoved = true;
+  if (!pointerMoved) return;
 
-  // Stamp visibility
-  const like = activeCard.querySelector('.stamp-like');
-  const nope = activeCard.querySelector('.stamp-nope');
-  const ratio = Math.min(Math.abs(currentX) / 100, 1);
-  if (currentX > 20) { like.style.opacity = ratio; nope.style.opacity = 0; }
-  else if (currentX < -20) { nope.style.opacity = ratio; like.style.opacity = 0; }
-  else { like.style.opacity = 0; nope.style.opacity = 0; }
+  const rotate = deltaX * 0.07;
+  activeCard.style.transition = 'none';
+  activeCard.style.transform  = `translate(${deltaX}px, ${deltaY * 0.25}px) rotate(${rotate}deg)`;
+
+  const ratio = Math.min(Math.abs(deltaX) / 90, 1);
+  activeCard.querySelector('.stamp-like').style.opacity = deltaX >  15 ? ratio : 0;
+  activeCard.querySelector('.stamp-nope').style.opacity = deltaX < -15 ? ratio : 0;
 }
 
-function onEnd() {
-  document.removeEventListener('mousemove', onMove);
-  document.removeEventListener('touchmove', onMove);
-  document.removeEventListener('mouseup', onEnd);
-  document.removeEventListener('touchend', onEnd);
+function onUp(e) {
+  window.removeEventListener('pointermove', onMove);
+  window.removeEventListener('pointerup',   onUp);
+  window.removeEventListener('pointercancel', onUp);
   if (!isDragging) return;
   isDragging = false;
 
-  const threshold = 80;
-  if (currentX > threshold) swipe('right');
-  else if (currentX < -threshold) swipe('left');
-  else {
-    // Snap back
-    if (activeCard) {
-      activeCard.style.transition = 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1)';
-      activeCard.style.transform = 'translate(0,0) rotate(0deg)';
-      activeCard.querySelector('.stamp-like').style.opacity = 0;
-      activeCard.querySelector('.stamp-nope').style.opacity = 0;
-      setTimeout(() => { if(activeCard) activeCard.style.transition = ''; }, 400);
-    }
+  if (!pointerMoved) {
+    // It's a tap — navigate photos
+    const profile = profiles[currentIndex];
+    const total   = profile._photos.length;
+    const tapX    = e.clientX;
+    const midX    = window.innerWidth / 2;
+    if (tapX > midX) photoIdx = Math.min(total - 1, photoIdx + 1);
+    else             photoIdx = Math.max(0,          photoIdx - 1);
+    setPhotoIdx(activeCard, photoIdx, total);
+    return;
   }
+
+  // Swipe threshold
+  if      (deltaX >  85) swipe('right');
+  else if (deltaX < -85) swipe('left');
+  else                   snapBack();
+}
+
+function snapBack() {
+  if (!activeCard) return;
+  activeCard.style.transition = 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+  activeCard.style.transform  = 'none';
+  activeCard.querySelector('.stamp-like').style.opacity = 0;
+  activeCard.querySelector('.stamp-nope').style.opacity = 0;
 }
 
 // ─────────────────────────────────────────
-//  Swipe logic
+//  Swipe
 // ─────────────────────────────────────────
 function swipe(direction) {
   if (!activeCard || currentIndex >= profiles.length) return;
   const profile = profiles[currentIndex];
-  const card = activeCard;
-  activeCard = null;
+  const card    = activeCard;
+  activeCard    = null;
 
-  let tx = 0, ty = -80, rotate = 0;
-  if (direction === 'right' || direction === 'super') tx = window.innerWidth * 1.3;
-  if (direction === 'left') tx = -window.innerWidth * 1.3;
-  if (direction === 'right') rotate = 20;
-  if (direction === 'left') rotate = -20;
+  const tx     = direction === 'left' ? -window.innerWidth * 1.5 : window.innerWidth * 1.5;
+  const rotate = direction === 'left' ? -22 : 22;
 
-  card.style.transition = 'transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s';
-  card.style.transform = `translate(${tx}px, ${ty}px) rotate(${rotate}deg)`;
-  card.style.opacity = '0';
+  card.style.transition = 'transform 0.46s cubic-bezier(0.4,0,0.2,1), opacity 0.46s';
+  card.style.transform  = `translate(${tx}px,-60px) rotate(${rotate}deg)`;
+  card.style.opacity    = '0';
 
-  // Determine match
   const isMatch = direction !== 'left' && (
-    profile.forcedMatch === true ||
-    (!profile.forcedMatch && Math.random() < 0.35)
+    profile.forcedMatch === true || Math.random() < 0.35
   );
 
   currentIndex++;
 
   setTimeout(() => {
     card.remove();
-    if (isMatch) {
-      showMatch(profile);
-    } else {
-      renderCards();
-    }
-  }, 480);
+    if (isMatch) showMatch(profile);
+    else         renderCards();
+  }, 450);
 }
 
 // ─────────────────────────────────────────
-//  Match overlay
+//  Match
 // ─────────────────────────────────────────
 function showMatch(profile) {
   matchCount++;
-  document.getElementById('match-count-header').textContent = matchCount;
+  document.getElementById('match-count').textContent = matchCount;
 
-  const photosEl = document.getElementById('match-photos');
-  photosEl.innerHTML = '';
+  const el = document.getElementById('match-photos');
+  el.innerHTML = '';
 
-  // Bride placeholder (left)
   const bride = document.createElement('div');
-  bride.className = 'match-photo-placeholder';
+  bride.className = 'match-avatar-emoji';
   bride.textContent = '👰';
-  photosEl.appendChild(bride);
+  el.appendChild(bride);
 
-  // Match photo (right)
-  const photoURL = photoURLs[profile.photo];
-  if (photoURL) {
+  const firstPhoto = profile._photos?.[0];
+  if (firstPhoto) {
     const img = document.createElement('img');
-    img.className = 'match-photo';
-    img.src = photoURL;
-    photosEl.appendChild(img);
+    img.className = 'match-avatar';
+    img.src = PHOTOS_DIR + firstPhoto;
+    el.appendChild(img);
   } else {
     const ph = document.createElement('div');
-    ph.className = 'match-photo-placeholder';
+    ph.className = 'match-avatar-emoji';
     ph.textContent = '🤩';
-    photosEl.appendChild(ph);
+    el.appendChild(ph);
   }
 
-  document.getElementById('match-profile-name').textContent = `You & ${profile.name} liked each other!`;
-
-  const overlay = document.getElementById('match-overlay');
-  overlay.classList.add('visible');
+  document.getElementById('match-name').textContent = `You & ${profile.name} liked each other!`;
+  document.getElementById('match-overlay').classList.add('visible');
   launchConfetti();
 }
 
@@ -813,61 +639,61 @@ function closeMatch() {
 // ─────────────────────────────────────────
 function showEndScreen() {
   document.getElementById('card-area').style.display = 'none';
-  document.getElementById('actions').style.display = 'none';
-  const end = document.getElementById('end-screen');
-  end.style.display = 'flex';
-  document.getElementById('final-match-count').textContent = matchCount;
+  document.getElementById('actions').style.display   = 'none';
+  document.getElementById('final-count').textContent = matchCount;
+  showPanel('end-screen');
 }
 
 // ─────────────────────────────────────────
 //  Confetti
 // ─────────────────────────────────────────
 const canvas = document.getElementById('confetti-canvas');
-const ctx = canvas.getContext('2d');
-let confettiParticles = [];
-let animFrame = null;
-let confettiActive = false;
+const ctx    = canvas.getContext('2d');
+let particles = [], animId = null, confettiOn = false;
+const COLORS = ['#fe3c72','#ff6034','#ffd700','#4caf50','#2196f3','#e91e63','#ff9800','#fff'];
 
 function launchConfetti() {
-  canvas.width = window.innerWidth;
+  canvas.width  = window.innerWidth;
   canvas.height = window.innerHeight;
-  confettiParticles = Array.from({ length: 160 }, () => ({
+  particles = Array.from({ length: 180 }, () => ({
     x: Math.random() * canvas.width,
     y: -20,
-    r: Math.random() * 8 + 4,
-    color: ['#fe3c72','#ff6034','#ffd700','#4caf50','#2196f3','#e91e63','#ff9800'][Math.floor(Math.random()*7)],
-    vx: (Math.random() - 0.5) * 6,
+    r: Math.random() * 9 + 4,
+    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+    vx: (Math.random() - 0.5) * 7,
     vy: Math.random() * 4 + 2,
-    spin: (Math.random() - 0.5) * 0.3,
+    spin: (Math.random() - 0.5) * 0.35,
     angle: Math.random() * Math.PI * 2,
     shape: Math.random() > 0.5 ? 'rect' : 'circle',
   }));
-  confettiActive = true;
-  animateConfetti();
+  confettiOn = true;
+  animateConf();
 }
 
-function animateConfetti() {
-  if (!confettiActive) return;
+function animateConf() {
+  if (!confettiOn) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  confettiParticles.forEach(p => {
-    p.x += p.vx; p.y += p.vy; p.angle += p.spin;
-    ctx.save();
-    ctx.translate(p.x, p.y);
-    ctx.rotate(p.angle);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.angle += p.spin; p.vy += 0.06;
+    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle);
     ctx.fillStyle = p.color;
-    if (p.shape === 'rect') ctx.fillRect(-p.r, -p.r/2, p.r*2, p.r);
-    else { ctx.beginPath(); ctx.arc(0, 0, p.r/2, 0, Math.PI*2); ctx.fill(); }
+    if (p.shape === 'rect') ctx.fillRect(-p.r, -p.r * 0.4, p.r * 2, p.r * 0.8);
+    else { ctx.beginPath(); ctx.arc(0, 0, p.r * 0.5, 0, Math.PI * 2); ctx.fill(); }
     ctx.restore();
   });
-  confettiParticles = confettiParticles.filter(p => p.y < canvas.height + 20);
-  if (confettiParticles.length > 0) animFrame = requestAnimationFrame(animateConfetti);
+  particles = particles.filter(p => p.y < canvas.height + 30);
+  if (particles.length) animId = requestAnimationFrame(animateConf);
   else stopConfetti();
 }
 
 function stopConfetti() {
-  confettiActive = false;
-  if (animFrame) cancelAnimationFrame(animFrame);
+  confettiOn = false;
+  if (animId) cancelAnimationFrame(animId);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
 </body>
