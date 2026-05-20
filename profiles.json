@@ -1,9 +1,9 @@
 [
   {
     "name": "Romain",
-    "age": 32,
+    "age": 31,
     "job": "Voyageur professionnel",
-    "distance": "2 km away",
+    "distance": "130 km away",
     "bio": "Dans l'espoir de conquérir ton cœur, je te ferais visiter les plus belles villes du monde",
     "flirt": "Demande moi de te parler de mes nouvelles boots",
     "photos": ["romain_1.jpg", "romain_2.jpg", "lucas_3.jpg"],
@@ -11,29 +11,79 @@
   },
   {
     "name": "Mario",
-    "age": 31,
+    "age": 30,
     "job": "Ecrivain",
-    "distance": "5 km away",
+    "distance": "200 km away",
     "bio": "Influenceur et écrivain à plein temps, je cherche la perle rare qui saura me donner l'inspiration",
-    "flirt": "Je te demanderais en mariage sur un stream twich",
+    "flirt": "Je te demanderais en mariage sur un livre audio",
     "photos": ["mario_1.jpg", "mario_2.jpg"],
     "forcedMatch": true
   },
   {
     "name": "Nathan",
     "age": 30,
-    "job": "HR",
+    "job": "Finances",
     "distance": "1 km away",
-    "bio": "If your dog likes me, it's meant to be. Science.",
+    "bio": "If your cat likes me, it's meant to be. Science.",
     "flirt": "tell me your pet's full name and backstory",
     "photos": ["nathan_1.jpg", "nathan_2.jpg", ",nathan_3.jpg", "nathan_4.jpg"],
     "forcedMatch": true
   },
   {
-    "name": "Joe",
+    "name": "Carl",
     "age": 33,
     "job": "Mecanicien",
     "distance": "3 km away",
+    "bio": "Je saurais réparer ton cœur, comme j'ai su réparer ce 2l tfsi EA888 CDNB, sur cette A4 B8.5 de 2011 ",
+    "flirt": "Demande moi de faire tes vidanges",
+    "photos": ["joe_1.jpg", "joe_2.jpg"],
+    "forcedMatch": true
+  },
+ {
+    "name": "Joe",
+    "age": 30,
+    "job": "Soccer player",
+    "distance": "3 km away",
+    "bio": "Je saurais réparer ton cœur, comme j'ai su réparer ce 2l tfsi EA888 CDNB, sur cette A4 B8.5 de 2011 ",
+    "flirt": "Demande moi de faire tes vidanges",
+    "photos": ["joe_1.jpg", "joe_2.jpg"],
+    "forcedMatch": true
+  },
+ {
+    "name": "Vincent",
+    "age": 32,
+    "job": "Professeur",
+    "distance": "5 km away",
+    "bio": "Je saurais réparer ton cœur, comme j'ai su réparer ce 2l tfsi EA888 CDNB, sur cette A4 B8.5 de 2011 ",
+    "flirt": "Demande moi de faire tes vidanges",
+    "photos": ["joe_1.jpg", "joe_2.jpg"],
+    "forcedMatch": true
+  },
+ {
+    "name": "Jessy",
+    "age": 31,
+    "job": "Athlète Olympique en snow",
+    "distance": "7 km away",
+    "bio": "Je saurais réparer ton cœur, comme j'ai su réparer ce 2l tfsi EA888 CDNB, sur cette A4 B8.5 de 2011 ",
+    "flirt": "Demande moi de faire tes vidanges",
+    "photos": ["joe_1.jpg", "joe_2.jpg"],
+    "forcedMatch": true
+  },
+ {
+    "name": "Bobby",
+    "age": 30,
+    "job": "Mannequin",
+    "distance": "20 km away",
+    "bio": "Je saurais réparer ton cœur, comme j'ai su réparer ce 2l tfsi EA888 CDNB, sur cette A4 B8.5 de 2011 ",
+    "flirt": "Demande moi de faire tes vidanges",
+    "photos": ["joe_1.jpg", "joe_2.jpg"],
+    "forcedMatch": true
+  },
+ {
+    "name": "Justin",
+    "age": 33,
+    "job": "Paysagiste",
+    "distance": "1.5 km away",
     "bio": "Je saurais réparer ton cœur, comme j'ai su réparer ce 2l tfsi EA888 CDNB, sur cette A4 B8.5 de 2011 ",
     "flirt": "Demande moi de faire tes vidanges",
     "photos": ["joe_1.jpg", "joe_2.jpg"],
