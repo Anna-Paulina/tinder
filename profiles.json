@@ -1,62 +1,42 @@
 [
   {
-    "name": "Lucas",
-    "age": 28,
-    "job": "Chef 👨‍🍳",
+    "name": "Romain",
+    "age": 32,
+    "job": "Voyageur professionnel",
     "distance": "2 km away",
-    "bio": "Will cook for you. Will also eat your leftovers. Non-negotiable.",
-    "flirt": "ask me what's in the secret sauce 🍝",
-    "photos": ["lucas_1.jpg", "lucas_2.jpg", "lucas_3.jpg"],
+    "bio": "Dans l'espoir de conquérir ton cœur, je te ferais visiter les plus belles villes du monde",
+    "flirt": "Demande moi de te parler de mes nouvelles boots",
+    "photos": ["romain_1.jpg", "romain_2.jpg", "lucas_3.jpg"],
     "forcedMatch": true
   },
   {
-    "name": "Antoine",
+    "name": "Mario",
     "age": 31,
-    "job": "Architect 🏛️",
+    "job": "Ecrivain",
     "distance": "5 km away",
-    "bio": "I design things. Including my own excuses for being late.",
-    "flirt": "ask me why buildings are taller than they are wide",
-    "photos": ["antoine_1.jpg", "antoine_2.jpg"],
-    "forcedMatch": false
+    "bio": "Influenceur et écrivain à plein temps, je cherche la perle rare qui saura me donner l'inspiration",
+    "flirt": "Je te demanderais en mariage sur un stream twich",
+    "photos": ["mario_1.jpg", "mario_2.jpg"],
+    "forcedMatch": true
   },
   {
-    "name": "Max",
-    "age": 26,
-    "job": "Vet 🐾",
+    "name": "Nathan",
+    "age": 30,
+    "job": "HR",
     "distance": "1 km away",
     "bio": "If your dog likes me, it's meant to be. Science.",
     "flirt": "tell me your pet's full name and backstory",
-    "photos": ["max_1.jpg", "max_2.jpg", "max_3.jpg", "max_4.jpg"],
+    "photos": ["nathan_1.jpg", "nathan_2.jpg", ",nathan_3.jpg", "nathan_4.jpg"],
     "forcedMatch": true
   },
   {
-    "name": "Romain",
+    "name": "Joe",
     "age": 33,
-    "job": "DJ 🎧",
+    "job": "Mecanicien",
     "distance": "3 km away",
-    "bio": "I once made a room full of strangers cry with a transition. Not sorry.",
-    "flirt": "request a song I've definitely never played",
-    "photos": ["romain_1.jpg", "romain_2.jpg"],
-    "forcedMatch": false
-  },
-  {
-    "name": "Tom",
-    "age": 29,
-    "job": "Firefighter 🚒",
-    "distance": "7 km away",
-    "bio": "Literally saves lives for a living. Emotionally? Still figuring it out.",
-    "flirt": "pretend you need rescuing (from boredom)",
-    "photos": ["tom_1.jpg"],
-    "forcedMatch": false
-  },
-  {
-    "name": "Julien",
-    "age": 27,
-    "job": "Photographer 📸",
-    "distance": "4 km away",
-    "bio": "I see the world in golden hour lighting. And in RAW format.",
-    "flirt": "let me take a candid of you doing literally nothing",
-    "photos": ["julien_1.jpg", "julien_2.jpg", "julien_3.jpg", "julien_4.jpg", "julien_5.jpg", "julien_6.jpg"],
+    "bio": "Je saurais réparer ton cœur, comme j'ai su réparer ce 2l tfsi EA888 CDNB, sur cette A4 B8.5 de 2011 ",
+    "flirt": "Demande moi de faire tes vidanges",
+    "photos": ["joe_1.jpg", "joe_2.jpg"],
     "forcedMatch": true
-  }
+  },
 ]
