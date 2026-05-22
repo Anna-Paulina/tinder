@@ -6,7 +6,7 @@
     "distance": "130 km away",
     "bio": "Dans l'espoir de conquérir ton cœur, je te ferais visiter les plus belles villes du monde",
     "flirt": "Demande moi de te montrer mes photos",
-    "photos": ["romain_1.jpg", "romain_2.jpg", "lucas_3.jpg"],
+    "photos": ["romain_1.jpg"],
     "forcedMatch": true
   },
   {
@@ -16,7 +16,7 @@
     "distance": "200 km away",
     "bio": "Influenceur et écrivain à plein temps, je cherche la perle rare qui saura me donner l'inspiration",
     "flirt": "Je te demanderais en mariage sur un livre audio",
-    "photos": ["mario_1.jpg", "mario_2.jpg"],
+    "photos": ["mario_1.jpg"],
     "forcedMatch": true
   },
   {
@@ -26,7 +26,7 @@
     "distance": "1 km away",
     "bio": "If your cat likes me, it's meant to be. Science.",
     "flirt": "tell me your pet's full name and backstory",
-    "photos": ["nathan_1.jpg", "nathan_2.jpg", ",nathan_3.jpg", "nathan_4.jpg"],
+    "photos": ["nathan_1.jpg"],
     "forcedMatch": true
   },
   {
@@ -36,7 +36,7 @@
     "distance": "3 km away",
     "bio": "Je saurais réparer ton cœur, comme j'ai su réparer ce 2l tfsi EA888 CDNB, sur cette A4 B8.5 de 2011 ",
     "flirt": "Demande moi de faire tes vidanges",
-    "photos": ["joe_1.jpg", "joe_2.jpg"],
+    "photos": ["carl_1.jpg"],
     "forcedMatch": true
   },
  {
@@ -46,7 +46,7 @@
     "distance": "3 km away",
     "bio": " J'ai faillis devenir joueur professionel mais j'ai eu un gros problème, j'étais mauvais ",
     "flirt": "Propose moi de tirer dans ta lucarne",
-    "photos": ["joe_1.jpg", "joe_2.jpg"],
+    "photos": ["joe_1.jpg"],
     "forcedMatch": true
   },
  {
@@ -56,7 +56,7 @@
     "distance": "5 km away",
     "bio": " Passionné d'astronomie et de mathématiques, je m'épanouïs dans mon métier ",
     "flirt": " Ho no professor, you gave me a really bad graade, is there a way to make it better ? grrrr",
-    "photos": ["joe_1.jpg", "joe_2.jpg"],
+    "photos": ["vincent_1.jpg"],
     "forcedMatch": true
   },
  {
@@ -66,7 +66,7 @@
     "distance": "7 km away",
     "bio": " Tu es surement devenue folle de moi lorsque tu m'as vu aux JO de Milan ",
     "flirt": " Veux tu venir t'entrainer avec moi au camp fortune ?",
-    "photos": ["joe_1.jpg", "joe_2.jpg"],
+    "photos": ["jessy_1.jpg"],
     "forcedMatch": true
   },
  {
@@ -76,7 +76,7 @@
     "distance": "20 km away",
     "bio": " Mon coeur taillé me permet de voyager a travers le monde pour des shooting photos, veux tu traverser le monde pour voyager sur mon corps ? ",
     "flirt": " On sait tous les deux que tu veux swipe right ",
-    "photos": ["joe_1.jpg", "joe_2.jpg"],
+    "photos": ["bobby_1.jpg"],
     "forcedMatch": true
   },
  {
@@ -86,7 +86,7 @@
     "distance": "1.5 km away",
     "bio": " Gand adepte des plantes et de la nature, je prend beaucoup de plaisir à entretenir la flore, aujourd'hui, j'ai revitalisé mon chataignier Bruno ",
     "flirt": " Pour moi, un buisson bien taillé c'est un must have",
-    "photos": ["joe_1.jpg", "joe_2.jpg"],
+    "photos": ["justin_1.jpg"],
     "forcedMatch": true
   }
 ]
