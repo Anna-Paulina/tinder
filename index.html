@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Last Swipe 💍</title>
+<title>One Last Swipe 💍</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,73 +29,78 @@
     -webkit-user-select: none;
   }
 
-  /* ── Header ── */
-  header {
-    width: 100%;
-    max-width: 430px;
-    display: flex;
+  /* ════════════════════════════════
+     LOADING
+  ════════════════════════════════ */
+  #loading-screen {
+    position: fixed; inset: 0; background: #f0f0f0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 16px; z-index: 200; transition: opacity 0.4s;
+  }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 4px solid #ffd6e0; border-top-color: var(--pink);
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+  }
+  #loading-screen p { font-size: 16px; font-weight: 700; color: #aaa; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ════════════════════════════════
+     BRIDE PROFILE SCREEN
+  ════════════════════════════════ */
+  #bride-screen {
+    display: none;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 14px 20px 6px;
+    width: 100%; height: 100dvh;
+    background: #f0f0f0;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Top bar */
+  .bride-topbar {
+    width: 100%; max-width: 430px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px 20px 8px;
+    position: relative;
     flex-shrink: 0;
   }
-  .logo {
-    font-size: 20px;
-    font-weight: 900;
+  .bride-topbar .logo {
+    font-size: 20px; font-weight: 900;
     background: linear-gradient(135deg, var(--pink), var(--orange));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  .header-badge {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--pink);
-    background: #fff;
-    border-radius: 100px;
-    padding: 4px 12px;
-    box-shadow: 0 2px 8px rgba(254,60,114,0.2);
-  }
 
-  /* ── Card area ── */
-  #card-area {
+  /* Card wrapper */
+  #bride-card-wrap {
     flex: 1;
-    width: 100%;
-    max-width: 430px;
-    position: relative;
+    width: 100%; max-width: 430px;
     padding: 6px 16px 0;
+    position: relative;
   }
 
-  .card {
+  /* Bride card — same visual as swipe cards */
+  #bride-card {
     position: absolute;
     left: 16px; right: 16px; top: 6px; bottom: 0;
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow);
     background: #222;
-    touch-action: none;
-  }
-  .card-front { z-index: 2; cursor: grab; }
-  .card-front:active { cursor: grabbing; }
-  .card-behind {
-    z-index: 1;
-    pointer-events: none;
-    transform: scale(0.95) translateY(14px);
   }
 
-  /* ── Photos ── */
   .photo-slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.22s;
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.22s;
   }
   .photo-slide.active { opacity: 1; }
   .photo-slide img {
     width: 100%; height: 100%;
     object-fit: cover; display: block;
-    pointer-events: none;
-    -webkit-user-drag: none;
+    pointer-events: none; -webkit-user-drag: none;
   }
   .photo-placeholder {
     width: 100%; height: 100%;
@@ -104,43 +109,32 @@
     font-size: 80px;
   }
 
-  /* Tap zones — upper portion of card only */
+  /* Tap zones */
   .tap-prev, .tap-next {
-    position: absolute;
-    top: 0; height: 58%;
-    width: 38%;
-    z-index: 5;
-    cursor: pointer;
+    position: absolute; top: 0; height: 58%; width: 38%;
+    z-index: 5; cursor: pointer;
   }
   .tap-prev { left: 0; }
   .tap-next { right: 0; }
 
-  /* Progress dots */
+  /* Dot bar */
   .photo-dots {
-    position: absolute;
-    top: 10px; left: 10px; right: 10px;
-    display: flex; gap: 4px;
-    z-index: 6; pointer-events: none;
+    position: absolute; top: 10px; left: 10px; right: 10px;
+    display: flex; gap: 4px; z-index: 6; pointer-events: none;
   }
   .photo-dot {
     flex: 1; height: 3px; border-radius: 2px;
-    background: rgba(255,255,255,0.35);
-    transition: background 0.2s;
+    background: rgba(255,255,255,0.35); transition: background 0.2s;
   }
   .photo-dot.active { background: rgba(255,255,255,0.95); }
 
-  /* ── Info overlay ── */
+  /* Info overlay */
   .card-info {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
+    position: absolute; bottom: 0; left: 0; right: 0;
     background: linear-gradient(to top,
-      rgba(0,0,0,0.88) 0%,
-      rgba(0,0,0,0.5) 55%,
-      transparent 100%);
+      rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.5) 55%, transparent 100%);
     padding: 70px 18px 20px;
-    color: #fff;
-    z-index: 4;
-    pointer-events: none;
+    color: #fff; z-index: 4; pointer-events: none;
   }
   .card-name-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 3px; }
   .card-name { font-size: 28px; font-weight: 900; line-height: 1; }
@@ -154,7 +148,88 @@
   .card-flirt { font-size: 12px; opacity: 0.72; font-style: italic; }
   .card-flirt strong { font-style: normal; font-weight: 800; }
 
-  /* ── Swipe stamps ── */
+  /* Verified badge */
+  .bride-verified {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: linear-gradient(135deg, var(--pink), var(--orange));
+    color: #fff; font-size: 11px; font-weight: 800;
+    padding: 3px 10px; border-radius: 100px;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  /* CTA bottom */
+  #bride-bottom {
+    width: 100%; max-width: 430px;
+    padding: 14px 24px 24px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 10px;
+    flex-shrink: 0;
+  }
+  .bride-tagline {
+    font-size: 13px; color: #aaa; font-weight: 600; text-align: center;
+  }
+  .btn-hunt {
+    width: 100%;
+    background: linear-gradient(135deg, var(--pink), var(--orange));
+    color: #fff; border: none; border-radius: 100px;
+    padding: 16px 0; font-size: 17px; font-weight: 900;
+    font-family: 'Nunito', sans-serif; cursor: pointer;
+    box-shadow: 0 6px 28px rgba(254,60,114,0.45);
+    transition: transform 0.15s, box-shadow 0.15s;
+    letter-spacing: 0.3px;
+  }
+  .btn-hunt:hover  { transform: scale(1.02); box-shadow: 0 8px 32px rgba(254,60,114,0.55); }
+  .btn-hunt:active { transform: scale(0.97); }
+
+  /* ════════════════════════════════
+     SWIPE APP
+  ════════════════════════════════ */
+  #app {
+    display: none;
+    flex-direction: column; align-items: center;
+    width: 100%; height: 100dvh;
+    position: relative;
+    animation: fadeIn 0.4s ease both;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  header {
+    width: 100%; max-width: 430px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px 6px; flex-shrink: 0;
+  }
+  .logo {
+    font-size: 20px; font-weight: 900;
+    background: linear-gradient(135deg, var(--pink), var(--orange));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header-badge {
+    font-size: 14px; font-weight: 800; color: var(--pink);
+    background: #fff; border-radius: 100px; padding: 4px 12px;
+    box-shadow: 0 2px 8px rgba(254,60,114,0.2);
+  }
+
+  #card-area {
+    flex: 1; width: 100%; max-width: 430px;
+    position: relative; padding: 6px 16px 0;
+  }
+
+  .card {
+    position: absolute;
+    left: 16px; right: 16px; top: 6px; bottom: 0;
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow); background: #222;
+    touch-action: none;
+  }
+  .card-front { z-index: 2; cursor: grab; }
+  .card-front:active { cursor: grabbing; }
+  .card-behind {
+    z-index: 1; pointer-events: none;
+    transform: scale(0.95) translateY(14px);
+  }
+
   .stamp {
     position: absolute; top: 52px;
     font-size: 36px; font-weight: 900;
@@ -166,7 +241,6 @@
   .stamp-like { left: 20px;  color: var(--green); border-color: var(--green); transform: rotate(-22deg); }
   .stamp-nope { right: 20px; color: var(--pink);  border-color: var(--pink);  transform: rotate(22deg); }
 
-  /* ── Action buttons ── */
   #actions {
     display: flex; align-items: center; justify-content: center;
     gap: 20px; padding: 14px 0 20px; flex-shrink: 0;
@@ -184,7 +258,27 @@
   .btn-super { width: 50px; height: 50px; font-size: 22px; }
   .btn-like  { width: 62px; height: 62px; font-size: 28px; }
 
-  /* ── Match overlay ── */
+  /* End / Error panels */
+  #error-panel, #end-panel {
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 40px; gap: 14px;
+    position: absolute; inset: 0;
+  }
+  .panel-emoji { font-size: 64px; }
+  #error-panel h2 { font-size: 22px; font-weight: 900; color: #333; }
+  #end-panel h2 {
+    font-size: 24px; font-weight: 900;
+    background: linear-gradient(135deg, var(--pink), var(--orange));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  #error-panel p, #end-panel p { font-size: 14px; color: #888; line-height: 1.6; max-width: 300px; }
+  #error-panel code { background: #eee; border-radius: 5px; padding: 2px 6px; font-family: monospace; }
+  .big-count { font-size: 72px; font-weight: 900; color: var(--pink); line-height: 1; }
+
+  /* ════════════════════════════════
+     MATCH OVERLAY
+  ════════════════════════════════ */
   #match-overlay {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.88);
@@ -242,140 +336,141 @@
     to   { opacity: 1; transform: scale(1); }
   }
 
-  /* ── Confetti ── */
+  /* ════════════════════════════════
+     CONFETTI
+  ════════════════════════════════ */
   #confetti-canvas {
     position: fixed; inset: 0;
     pointer-events: none; z-index: 99;
   }
-
-  /* ── Loading screen ── */
-  #loading-screen {
-    position: fixed; inset: 0; background: #f0f0f0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 16px; z-index: 200; transition: opacity 0.4s;
-  }
-  .spinner {
-    width: 48px; height: 48px;
-    border: 4px solid #ffd6e0;
-    border-top-color: var(--pink);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  #loading-screen p { font-size: 16px; font-weight: 700; color: #aaa; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ── Error / End screens ── */
-  #error-screen, #end-screen {
-    display: none; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center; padding: 40px; gap: 14px;
-    position: absolute; inset: 0;
-  }
-  .screen-emoji { font-size: 64px; }
-  #error-screen h2, #end-screen h2 { font-size: 24px; font-weight: 900; }
-  #error-screen h2 { color: #333; }
-  #end-screen h2 {
-    background: linear-gradient(135deg, var(--pink), var(--orange));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  }
-  #error-screen p, #end-screen p { font-size: 14px; color: #888; line-height: 1.6; max-width: 300px; }
-  #error-screen code { background: #eee; border-radius: 5px; padding: 2px 6px; font-family: monospace; }
-  .big-count { font-size: 72px; font-weight: 900; color: var(--pink); line-height: 1; }
 </style>
 </head>
 <body>
 
 <canvas id="confetti-canvas"></canvas>
 
-<!-- Loading -->
+<!-- ── Loading ── -->
 <div id="loading-screen">
   <div style="font-size:52px">💍</div>
   <div class="spinner"></div>
-  <p>Loading profiles…</p>
+  <p>Préparation de la soirée…</p>
 </div>
 
-<!-- App shell -->
-<div id="app" style="display:none;flex-direction:column;align-items:center;width:100%;height:100dvh;position:relative;">
+<!-- ══════════════════════════════════
+     BRIDE PROFILE SCREEN
+══════════════════════════════════ -->
+<div id="bride-screen">
+  <div class="bride-topbar">
+    <div class="logo">💍 last swipe</div>
+  </div>
 
+  <div id="bride-card-wrap">
+    <div id="bride-card">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <div id="bride-bottom">
+    <p class="bride-tagline" id="bride-tagline">Ce soir, c'est toi la star 👑</p>
+    <button class="btn-hunt" onclick="startHunt()">
+      Commencer la chasse 🏹
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SWIPE APP
+══════════════════════════════════ -->
+<div id="app">
   <header>
     <div class="logo">💍 last swipe</div>
     <div class="header-badge">❤️ <span id="match-count">0</span> matches</div>
   </header>
 
-  <div id="card-area"></div>
+  <div id="card-area">
+    <div id="error-panel">
+      <div class="panel-emoji">😬</div>
+      <h2>Profils introuvables</h2>
+      <p>Vérifie que <code>profiles.json</code> est à la racine du repo et les photos dans <code>/photos/</code>.</p>
+    </div>
+    <div id="end-panel">
+      <div class="panel-emoji">🥂</div>
+      <h2>Tous vus !</h2>
+      <p>Total de matches ce soir :</p>
+      <div class="big-count" id="final-count">0</div>
+      <p style="color:#bbb;font-size:13px;margin-top:4px">À toi de jouer maintenant 💍</p>
+    </div>
+  </div>
 
   <div id="actions">
     <button class="btn-action btn-nope"  onclick="swipe('left')"  title="Nope">✖️</button>
     <button class="btn-action btn-super" onclick="swipe('super')" title="Super Like">⭐</button>
     <button class="btn-action btn-like"  onclick="swipe('right')" title="Like">💚</button>
   </div>
-
-  <!-- Error & End live inside app to inherit layout -->
-  <div id="error-screen">
-    <div class="screen-emoji">😬</div>
-    <h2>Couldn't load profiles</h2>
-    <p>Make sure <code>profiles.json</code> is at the root of your repo and photos are in <code>/photos/</code>.<br><br>Check the README for details.</p>
-  </div>
-
-  <div id="end-screen">
-    <div class="screen-emoji">🥂</div>
-    <h2>You've seen them all!</h2>
-    <p>Total matches tonight:</p>
-    <div class="big-count" id="final-count">0</div>
-    <p style="color:#bbb;font-size:13px;margin-top:4px">Time to celebrate the real one 💍</p>
-  </div>
-
 </div>
 
-<!-- Match overlay -->
+<!-- ── Match overlay ── -->
 <div id="match-overlay">
   <div class="match-title">It's a Match! 🎉</div>
-  <div class="match-sub">Someone likes you back 💘</div>
+  <div class="match-sub">Quelqu'un te kiffe en retour 💘</div>
   <div class="match-photos" id="match-photos"></div>
   <div class="match-name"   id="match-name"></div>
-  <button class="btn-continue" onclick="closeMatch()">Keep Swiping</button>
+  <button class="btn-continue" onclick="closeMatch()">Continuer la chasse</button>
 </div>
 
 <script>
 // ─────────────────────────────────────────
-//  Config — edit if needed
+//  Config
 // ─────────────────────────────────────────
-const PHOTOS_DIR   = 'photos/';       // relative to index.html
-const PROFILES_URL = 'profiles.json'; // relative to index.html
+const PHOTOS_DIR   = 'photos/';
+const PROFILES_URL = 'profiles.json';
+const BRIDE_URL    = 'bride.json';
 
 // ─────────────────────────────────────────
 //  State
 // ─────────────────────────────────────────
-let profiles = [];
+let profiles    = [];
+let bride       = null;
 let currentIndex = 0;
-let matchCount = 0;
-let photoIdx = 0;     // current photo index on the front card
-let activeCard = null;
+let matchCount   = 0;
+let bridePhotoIdx = 0;
+let swipePhotoIdx = 0;
+let activeCard    = null;
 
 // Pointer state
 let startX = 0, startY = 0, deltaX = 0, deltaY = 0;
 let isDragging = false, pointerMoved = false;
 
 // ─────────────────────────────────────────
-//  Boot
+//  Boot — load both JSONs
 // ─────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
   try {
-    const res = await fetch(PROFILES_URL);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    profiles = await res.json();
+    const [profilesRes, brideRes] = await Promise.all([
+      fetch(PROFILES_URL),
+      fetch(BRIDE_URL),
+    ]);
+
+    if (!profilesRes.ok) throw new Error(`profiles.json: HTTP ${profilesRes.status}`);
+    profiles = await profilesRes.json();
     profiles.forEach(p => { p._photos = normalizePhotos(p); });
     profiles = profiles.sort(() => Math.random() - 0.5);
+
+    if (brideRes.ok) {
+      bride = await brideRes.json();
+      bride._photos = normalizePhotos(bride);
+    }
+
     hideLoading();
-    document.getElementById('app').style.display = 'flex';
-    renderCards();
+    showBrideScreen();
+
   } catch (err) {
     console.error(err);
     hideLoading();
+    // Skip bride screen, go straight to swipe with error
     document.getElementById('app').style.display = 'flex';
-    showPanel('error-screen');
-    document.getElementById('card-area').style.display = 'none';
+    showPanel('error-panel');
+    document.getElementById('card-area').style.display = 'block';
     document.getElementById('actions').style.display = 'none';
   }
 });
@@ -391,26 +486,135 @@ function showPanel(id) {
 }
 
 // ─────────────────────────────────────────
+//  Bride profile screen
+// ─────────────────────────────────────────
+function showBrideScreen() {
+  const screen = document.getElementById('bride-screen');
+  screen.style.display = 'flex';
+
+  const card = document.getElementById('bride-card');
+
+  if (!bride) {
+    // No bride.json — show placeholder
+    card.innerHTML = `
+      <div class="photo-placeholder">👰</div>
+      <div class="card-info">
+        <div class="bride-verified">💍 La mariée</div>
+        <div class="card-name-row">
+          <span class="card-name">La star</span>
+          <span class="card-age">ce soir</span>
+        </div>
+        <div class="card-bio">Ajoute un fichier <code style="background:rgba(255,255,255,0.15);padding:1px 5px;border-radius:4px">bride.json</code> pour personnaliser ce profil !</div>
+      </div>`;
+    return;
+  }
+
+  // Build bride card
+  const photos = bride._photos;
+
+  // Slides
+  photos.forEach((src, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'photo-slide' + (i === 0 ? ' active' : '');
+    if (src) {
+      const img = document.createElement('img');
+      img.src = PHOTOS_DIR + src;
+      img.alt = bride.name;
+      img.draggable = false;
+      slide.appendChild(img);
+    } else {
+      const ph = document.createElement('div');
+      ph.className = 'photo-placeholder';
+      ph.textContent = '👰';
+      slide.appendChild(ph);
+    }
+    card.appendChild(slide);
+  });
+
+  // Dots
+  if (photos.length > 1) {
+    const dotsBar = document.createElement('div');
+    dotsBar.className = 'photo-dots';
+    photos.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'photo-dot' + (i === 0 ? ' active' : '');
+      dotsBar.appendChild(d);
+    });
+    card.appendChild(dotsBar);
+
+    // Tap zones
+    const prev = document.createElement('div');
+    prev.className = 'tap-prev';
+    prev.addEventListener('click', () => {
+      bridePhotoIdx = Math.max(0, bridePhotoIdx - 1);
+      setPhotoIdx(card, bridePhotoIdx);
+    });
+    card.appendChild(prev);
+
+    const next = document.createElement('div');
+    next.className = 'tap-next';
+    next.addEventListener('click', () => {
+      bridePhotoIdx = Math.min(photos.length - 1, bridePhotoIdx + 1);
+      setPhotoIdx(card, bridePhotoIdx);
+    });
+    card.appendChild(next);
+  }
+
+  // Info overlay
+  const info = document.createElement('div');
+  info.className = 'card-info';
+  info.innerHTML = `
+    <div class="bride-verified">💍 La mariée</div>
+    <div class="card-name-row">
+      <span class="card-name">${esc(bride.name)}</span>
+      <span class="card-age">${esc(bride.age ?? '')}</span>
+    </div>
+    ${ bride.job      ? `<div class="card-job">${esc(bride.job)}</div>` : '' }
+    ${ bride.distance ? `<div class="card-dist">📍 ${esc(bride.distance)}</div>` : '' }
+    ${ bride.bio      ? `<div class="card-bio">${esc(bride.bio)}</div>` : '' }
+    ${ bride.flirt    ? `<div class="card-flirt"><strong>To flirt with me, you should:</strong> ${esc(bride.flirt)}</div>` : '' }
+  `;
+  card.appendChild(info);
+
+  // Tagline
+  if (bride.tagline) {
+    document.getElementById('bride-tagline').textContent = bride.tagline;
+  }
+}
+
+function startHunt() {
+  const screen = document.getElementById('bride-screen');
+  screen.style.transition = 'opacity 0.35s';
+  screen.style.opacity = '0';
+  setTimeout(() => {
+    screen.style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    renderCards();
+  }, 340);
+}
+
+// ─────────────────────────────────────────
 //  Card rendering
 // ─────────────────────────────────────────
 function renderCards() {
   const area = document.getElementById('card-area');
-  area.innerHTML = '';
+  // Clear only actual swipe cards, not the panels
+  area.querySelectorAll('.card').forEach(c => c.remove());
   activeCard = null;
 
   if (currentIndex >= profiles.length) {
     showEndScreen(); return;
   }
 
-  // Behind card
+  // Behind
   if (currentIndex + 1 < profiles.length) {
     const behind = buildCard(profiles[currentIndex + 1], false);
     behind.classList.add('card-behind');
     area.appendChild(behind);
   }
 
-  // Front card
-  photoIdx = 0;
+  // Front
+  swipePhotoIdx = 0;
   const front = buildCard(profiles[currentIndex], true);
   front.classList.add('card-front');
   area.appendChild(front);
@@ -423,7 +627,6 @@ function buildCard(profile, isFront) {
   const card = document.createElement('div');
   card.className = 'card';
 
-  // Photo slides
   photos.forEach((src, i) => {
     const slide = document.createElement('div');
     slide.className = 'photo-slide' + (i === 0 ? ' active' : '');
@@ -442,7 +645,6 @@ function buildCard(profile, isFront) {
     card.appendChild(slide);
   });
 
-  // Dot bar
   const dotsBar = document.createElement('div');
   dotsBar.className = 'photo-dots';
   photos.forEach((_, i) => {
@@ -452,17 +654,11 @@ function buildCard(profile, isFront) {
   });
   card.appendChild(dotsBar);
 
-  // Tap zones (bound only on front card via bindDrag)
   if (isFront) {
-    const prev = document.createElement('div');
-    prev.className = 'tap-prev';
-    card.appendChild(prev);
-    const next = document.createElement('div');
-    next.className = 'tap-next';
-    card.appendChild(next);
+    const prev = document.createElement('div'); prev.className = 'tap-prev'; card.appendChild(prev);
+    const next = document.createElement('div'); next.className = 'tap-next'; card.appendChild(next);
   }
 
-  // Stamps
   ['like','nope'].forEach(t => {
     const s = document.createElement('div');
     s.className = `stamp stamp-${t}`;
@@ -470,7 +666,6 @@ function buildCard(profile, isFront) {
     card.appendChild(s);
   });
 
-  // Info overlay
   const info = document.createElement('div');
   info.className = 'card-info';
   info.innerHTML = `
@@ -478,9 +673,9 @@ function buildCard(profile, isFront) {
       <span class="card-name">${esc(profile.name)}</span>
       <span class="card-age">${esc(profile.age ?? '')}</span>
     </div>
-    ${ profile.job      ? `<div class="card-job">${esc(profile.job)}</div>`  : '' }
+    ${ profile.job      ? `<div class="card-job">${esc(profile.job)}</div>` : '' }
     ${ profile.distance ? `<div class="card-dist">📍 ${esc(profile.distance)}</div>` : '' }
-    ${ profile.bio      ? `<div class="card-bio">${esc(profile.bio)}</div>`  : '' }
+    ${ profile.bio      ? `<div class="card-bio">${esc(profile.bio)}</div>` : '' }
     ${ profile.flirt    ? `<div class="card-flirt"><strong>To flirt with me, you should:</strong> ${esc(profile.flirt)}</div>` : '' }
   `;
   card.appendChild(info);
@@ -494,13 +689,13 @@ function normalizePhotos(p) {
   return [null];
 }
 
-function setPhotoIdx(card, idx, total) {
+function setPhotoIdx(card, idx) {
   card.querySelectorAll('.photo-slide').forEach((s, i) => s.classList.toggle('active', i === idx));
   card.querySelectorAll('.photo-dot').forEach((d, i)   => d.classList.toggle('active', i === idx));
 }
 
 // ─────────────────────────────────────────
-//  Drag & tap handling
+//  Drag & tap
 // ─────────────────────────────────────────
 function bindDrag(card) {
   card.addEventListener('pointerdown', onDown);
@@ -508,12 +703,11 @@ function bindDrag(card) {
 
 function onDown(e) {
   if (e.button !== undefined && e.button !== 0) return;
-  isDragging = true;
-  pointerMoved = false;
+  isDragging = true; pointerMoved = false;
   startX = e.clientX; startY = e.clientY;
   deltaX = 0; deltaY = 0;
   window.addEventListener('pointermove', onMove);
-  window.addEventListener('pointerup',   onUp);
+  window.addEventListener('pointerup', onUp);
   window.addEventListener('pointercancel', onUp);
 }
 
@@ -524,9 +718,8 @@ function onMove(e) {
   if (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4) pointerMoved = true;
   if (!pointerMoved) return;
 
-  const rotate = deltaX * 0.07;
   activeCard.style.transition = 'none';
-  activeCard.style.transform  = `translate(${deltaX}px, ${deltaY * 0.25}px) rotate(${rotate}deg)`;
+  activeCard.style.transform  = `translate(${deltaX}px, ${deltaY * 0.25}px) rotate(${deltaX * 0.07}deg)`;
 
   const ratio = Math.min(Math.abs(deltaX) / 90, 1);
   activeCard.querySelector('.stamp-like').style.opacity = deltaX >  15 ? ratio : 0;
@@ -535,24 +728,20 @@ function onMove(e) {
 
 function onUp(e) {
   window.removeEventListener('pointermove', onMove);
-  window.removeEventListener('pointerup',   onUp);
+  window.removeEventListener('pointerup', onUp);
   window.removeEventListener('pointercancel', onUp);
   if (!isDragging) return;
   isDragging = false;
 
   if (!pointerMoved) {
-    // It's a tap — navigate photos
-    const profile = profiles[currentIndex];
-    const total   = profile._photos.length;
-    const tapX    = e.clientX;
-    const midX    = window.innerWidth / 2;
-    if (tapX > midX) photoIdx = Math.min(total - 1, photoIdx + 1);
-    else             photoIdx = Math.max(0,          photoIdx - 1);
-    setPhotoIdx(activeCard, photoIdx, total);
+    // Tap → browse photos
+    const photos = profiles[currentIndex]._photos;
+    if (e.clientX > window.innerWidth / 2) swipePhotoIdx = Math.min(photos.length - 1, swipePhotoIdx + 1);
+    else                                    swipePhotoIdx = Math.max(0, swipePhotoIdx - 1);
+    if (activeCard) setPhotoIdx(activeCard, swipePhotoIdx);
     return;
   }
 
-  // Swipe threshold
   if      (deltaX >  85) swipe('right');
   else if (deltaX < -85) swipe('left');
   else                   snapBack();
@@ -587,7 +776,6 @@ function swipe(direction) {
   );
 
   currentIndex++;
-
   setTimeout(() => {
     card.remove();
     if (isMatch) showMatch(profile);
@@ -605,11 +793,21 @@ function showMatch(profile) {
   const el = document.getElementById('match-photos');
   el.innerHTML = '';
 
-  const bride = document.createElement('div');
-  bride.className = 'match-avatar-emoji';
-  bride.textContent = '👰';
-  el.appendChild(bride);
+  // Bride photo or emoji
+  const bridePhoto = bride?._photos?.[0];
+  if (bridePhoto) {
+    const img = document.createElement('img');
+    img.className = 'match-avatar';
+    img.src = PHOTOS_DIR + bridePhoto;
+    el.appendChild(img);
+  } else {
+    const ph = document.createElement('div');
+    ph.className = 'match-avatar-emoji';
+    ph.textContent = '👰';
+    el.appendChild(ph);
+  }
 
+  // Match photo
   const firstPhoto = profile._photos?.[0];
   if (firstPhoto) {
     const img = document.createElement('img');
@@ -623,7 +821,8 @@ function showMatch(profile) {
     el.appendChild(ph);
   }
 
-  document.getElementById('match-name').textContent = `You & ${profile.name} liked each other!`;
+  const brideName = bride?.name ?? 'Toi';
+  document.getElementById('match-name').textContent = `${brideName} & ${profile.name} se kiffent ! 🔥`;
   document.getElementById('match-overlay').classList.add('visible');
   launchConfetti();
 }
@@ -638,10 +837,9 @@ function closeMatch() {
 //  End screen
 // ─────────────────────────────────────────
 function showEndScreen() {
-  document.getElementById('card-area').style.display = 'none';
-  document.getElementById('actions').style.display   = 'none';
+  document.getElementById('actions').style.display = 'none';
   document.getElementById('final-count').textContent = matchCount;
-  showPanel('end-screen');
+  showPanel('end-panel');
 }
 
 // ─────────────────────────────────────────
@@ -656,8 +854,7 @@ function launchConfetti() {
   canvas.width  = window.innerWidth;
   canvas.height = window.innerHeight;
   particles = Array.from({ length: 180 }, () => ({
-    x: Math.random() * canvas.width,
-    y: -20,
+    x: Math.random() * canvas.width, y: -20,
     r: Math.random() * 9 + 4,
     color: COLORS[Math.floor(Math.random() * COLORS.length)],
     vx: (Math.random() - 0.5) * 7,
@@ -693,7 +890,9 @@ function stopConfetti() {
 }
 
 function esc(s) {
-  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s ?? '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
 </body>
