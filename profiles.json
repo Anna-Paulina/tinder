@@ -44,8 +44,8 @@
     "age": 30,
     "job": "Soccer player",
     "distance": "3 km away",
-    "bio": "Je saurais réparer ton cœur, comme j'ai su réparer ce 2l tfsi EA888 CDNB, sur cette A4 B8.5 de 2011 ",
-    "flirt": "Demande moi de faire tes vidanges",
+    "bio": " J'ai faillis devenir joueur professionel mais j'ai eu un gros problème, j'étais mauvais ",
+    "flirt": "Propose moi de tirer dans ta lucarne",
     "photos": ["joe_1.jpg", "joe_2.jpg"],
     "forcedMatch": true
   },
@@ -54,8 +54,8 @@
     "age": 32,
     "job": "Professeur",
     "distance": "5 km away",
-    "bio": "Je saurais réparer ton cœur, comme j'ai su réparer ce 2l tfsi EA888 CDNB, sur cette A4 B8.5 de 2011 ",
-    "flirt": "Demande moi de faire tes vidanges",
+    "bio": " Passionné d'astronomie et de mathématiques, je m'épanouïs dans mon métier ",
+    "flirt": " Ho no professor, you gave me a really bad graade, is there a way to make it better ? grrrr",
     "photos": ["joe_1.jpg", "joe_2.jpg"],
     "forcedMatch": true
   },
@@ -64,8 +64,8 @@
     "age": 31,
     "job": "Athlète Olympique en snow",
     "distance": "7 km away",
-    "bio": "Je saurais réparer ton cœur, comme j'ai su réparer ce 2l tfsi EA888 CDNB, sur cette A4 B8.5 de 2011 ",
-    "flirt": "Demande moi de faire tes vidanges",
+    "bio": " Tu es surement devenue folle de moi lorsque tu m'as vu aux JO de Milan ",
+    "flirt": " Veux tu venir t'entrainer avec moi au camp fortune ?",
     "photos": ["joe_1.jpg", "joe_2.jpg"],
     "forcedMatch": true
   },
@@ -74,7 +74,7 @@
     "age": 30,
     "job": "Mannequin",
     "distance": "20 km away",
-    "bio": "Je saurais réparer ton cœur, comme j'ai su réparer ce 2l tfsi EA888 CDNB, sur cette A4 B8.5 de 2011 ",
+    "bio": " Mon coeur taillé me permet de voyager a travers le monde pour des shooting photos, veux tu traverser le monde pour voyager sur mon corps ? ",
     "flirt": "Demande moi de faire tes vidanges",
     "photos": ["joe_1.jpg", "joe_2.jpg"],
     "forcedMatch": true
