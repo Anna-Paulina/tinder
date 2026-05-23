@@ -74,8 +74,8 @@
     "age": 30,
     "job": "Mannequin",
     "distance": "20 km away",
-    "bio": " Mon coeur taillé me permet de voyager a travers le monde pour des shooting photos, veux tu traverser le monde pour voyager sur mon corps ? ",
-    "flirt": " On sait tous les deux que tu veux swipe right ",
+    "bio": " Mon coeur taillé me permet de voyager a travers le monde pour des shooting photos ",
+    "flirt": " Veux tu traverser le monde pour voyager sur mon corps ? ",
     "photos": ["bobby_1.jpg"],
     "forcedMatch": true
   },
