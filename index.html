@@ -412,7 +412,7 @@
 <!-- ── Match overlay ── -->
 <div id="match-overlay">
   <div class="match-title">It's a Match! 🎉</div>
-  <div class="match-sub">Quelqu'un te kiffe en retour 💘</div>
+  <div class="match-sub">Quelqu'un trip sur toi en retour 💘</div>
   <div class="match-photos" id="match-photos"></div>
   <div class="match-name"   id="match-name"></div>
   <button class="btn-continue" onclick="closeMatch()">Continuer la chasse</button>
@@ -822,7 +822,7 @@ function showMatch(profile) {
   }
 
   const brideName = bride?.name ?? 'Toi';
-  document.getElementById('match-name').textContent = `${brideName} & ${profile.name} se kiffent ! 🔥`;
+  document.getElementById('match-name').textContent = `${brideName} & ${profile.name} ont un kick l'un sur l'autre ! 🔥`;
   document.getElementById('match-overlay').classList.add('visible');
   launchConfetti();
 }
