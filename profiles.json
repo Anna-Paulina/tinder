@@ -45,7 +45,7 @@
     "job": "Soccer player",
     "distance": "3 km away",
     "bio": " J'ai faillis devenir joueur professionel mais j'ai eu un gros problème, j'étais mauvais ",
-    "flirt": "Un gardien ne m'empêchera pas de marquer...",
+    "flirt": "Avoir un gardien ça me motive à marquer...",
     "photos": ["joe_1.jpg"],
     "forcedMatch": true
   },
@@ -65,7 +65,7 @@
     "job": "Athlète Olympique en snow",
     "distance": "7 km away",
     "bio": " Tu es surement devenue folle de moi lorsque tu m'as vu aux JO de Milan ",
-    "flirt": " Veux tu venir t'entrainer avec moi au camp fortune ?",
+    "flirt": " Avoir un pass saison au camp fortune ?",
     "photos": ["jessy_1.jpg"],
     "forcedMatch": true
   },
@@ -75,7 +75,7 @@
     "job": "Mannequin",
     "distance": "20 km away",
     "bio": " Mon corps taillé me permet de voyager a travers le monde pour des shooting photos ",
-    "flirt": " Veux tu traverser le monde pour voyager sur mon corps ? ",
+    "flirt": " être au moins une 10/10, avoir un bodycount de 2 max, si t'es vierge c'est un plus ",
     "photos": ["bobby_1.jpg"],
     "forcedMatch": true
   },
@@ -85,7 +85,7 @@
     "job": "Paysagiste",
     "distance": "1.5 km away",
     "bio": " Je prend beaucoup de plaisir à entretenir la flore, aujourd'hui, j'ai revitalisé mon chataignier Bruno ",
-    "flirt": " Pour moi, un buisson bien taillé c'est un must to have",
+    "flirt": " Avoir un buisson bien taillé c'est un must",
     "photos": ["justin_1.jpg"],
     "forcedMatch": true
   }
