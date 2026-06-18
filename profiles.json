@@ -15,7 +15,7 @@
     "job": "Ecrivain",
     "distance": "200 km away",
     "bio": "Influenceur et écrivain à plein temps, je cherche la perle rare qui saura me donner l'inspiration",
-    "flirt": "Je te demanderais en mariage sur un livre audio",
+    "flirt": "me demander en mariage sur un livre audio",
     "photos": ["mario_1.jpg"],
     "forcedMatch": true
   },
@@ -85,7 +85,7 @@
     "job": "Paysagiste",
     "distance": "1.5 km away",
     "bio": " Je prend beaucoup de plaisir à entretenir la flore, aujourd'hui, j'ai revitalisé mon chataignier Bruno ",
-    "flirt": " Pour moi, un buisson bien taillé c'est un must have",
+    "flirt": " Pour moi, un buisson bien taillé c'est un must to have",
     "photos": ["justin_1.jpg"],
     "forcedMatch": true
   }
