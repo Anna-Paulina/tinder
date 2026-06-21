@@ -1,5 +1,4 @@
-[
-  {
+[  {
     "name": "Romain",
     "age": 31,
     "job": "Voyageur professionnel",
@@ -91,7 +90,7 @@
   },
   {
     "name": "Paul & Filou",
-    "age": 50,
+    "age": "50 ans à nous deux",
     "job": "DD",
     "distance": "5000 km away",
     "bio": " Couple presque gay depuis 4 ans, ça nous a fait plaisir de vous conduire à Mt Tremblant ! ",
