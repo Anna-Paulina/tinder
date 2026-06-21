@@ -89,4 +89,14 @@
     "photos": ["justin_1.jpg"],
     "forcedMatch": true
   }
+  {
+    "name": "Paul & Filou",
+    "age": 50 à nous deux,
+    "job": "DD",
+    "distance": "5000 km away",
+    "bio": " Couple presque gay depuis 4 ans, ça nous a fait plaisir de vous conduire à Mt Tremblant ! ",
+    "flirt": " Encore merci pour la free food !! (Paul est célibataire si jamais)",
+    "photos": ["motion_photo_6182601375083603460.jpg"],
+    "forcedMatch": true
+  }
 ]
